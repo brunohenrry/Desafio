@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  apache:
+    build: './php'
+    container_name: php_desafio
+    restart: always
+    ports:
+      - '80:80'
+      - '9000:8000'
+    volumes:
+      - ./www:/var/www/html
+    depends_on:
+      - db
+    links:
+      - db
+
+  db:
+    container_name: mysql_desafio
+    build: "./mysql"
+    command: --max_allowed_packet=32505856 --sql_mode=""
+    restart: always
+    ports:
+      - '3309:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=banco_de_dados
